@@ -1,34 +1,66 @@
 <main class="signup">
-  <form class="signup_wrapper" onSubmit="{handleSubmit(onSubmit)}">
+  <form [formGroup]="form" (submit)="submit()" class="signup_wrapper">
     <a routerLink="/">
       <img src="assets/images/logo-header.svg" class="signup_logo" alt="logo" />
     </a>
     <h1 class="signup_title">Добро пожаловать!</h1>
     <label for="signup_name" class="signup_label">Имя</label>
-    <input id="signup_name" class="signup_input" name="name" required />
-    <p class="signup_error">errors.name</p>
+    <input id="signup_name" class="signup_input" formControlName="name" />
+    <p
+      [ngClass]="
+        nameError ? 'signup_error signup_error__showed' : 'signup_error'
+      "
+    >
+      {{ nameError }}
+    </p>
     <label for="signup_email" class="signup_label">Email</label>
     <input
       id="signup_email"
       class="signup_input"
       type="email"
-      name="email"
-      required
+      formControlName="email"
     />
-    <p class="signup_error">errors.email</p>
+    <p
+      [ngClass]="
+        emailError ? 'signup_error signup_error__showed' : 'signup_error'
+      "
+    >
+      {{ emailError }}
+    </p>
     <label for="signup_password" class="signup_label">Пароль</label>
     <input
       id="signup_password"
       class="signup_input"
-      name="password"
       type="password"
-      required
+      formControlName="password"
     />
-    <p class="signup_error">responseError</p>
-    <button class="signup_register">Зарегистрироваться</button>
+    <p
+      [ngClass]="
+        passwordError ? 'signup_error signup_error__showed' : 'signup_error'
+      "
+    >
+      {{ passwordError }}
+    </p>
+    <button class="signup_register" type="submit" [disabled]="submitDisabled">
+      <circle-progress
+        *ngIf="isSubmitting"
+        [radius]="10"
+        [percent]="requestProgress"
+      ></circle-progress>
+      Зарегистрироваться
+    </button>
     <p class="signup_already-registered">
       Уже зарегистрированы?
       <a class="signup_signin" routerLink="/signin">Войти</a>
+    </p>
+    <p
+      [ngClass]="
+        requestError
+          ? 'signup_error signup_error__response-error signup_error__showed'
+          : 'signup_error'
+      "
+    >
+      {{ requestError }}
     </p>
   </form>
 </main>
