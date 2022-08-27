@@ -5,9 +5,11 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './pages/home/home.component';
 import { MoviesComponent } from './pages/movies/movies.component';
-import {HeaderComponent} from "./layouts/header/header.component";
-import {HttpClientModule} from "@angular/common/http";
+import { HeaderComponent } from './layouts/header/header.component';
+import { HttpClientModule } from '@angular/common/http';
 import { FooterComponent } from './layouts/footer/footer.component';
+import { SigninComponent } from './pages/signin/signin.component';
+import { SignupComponent } from './pages/signup/signup.component';
 
 @NgModule({
   declarations: [
@@ -15,14 +17,12 @@ import { FooterComponent } from './layouts/footer/footer.component';
     HomeComponent,
     MoviesComponent,
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
+    SigninComponent,
+    SignupComponent,
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule,
-  ],
+  imports: [BrowserModule, AppRoutingModule, HttpClientModule],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

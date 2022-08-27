@@ -1,0 +1,129 @@
+.signup {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.signup_wrapper {
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+}
+
+.signup_title {
+  margin: 40px 0 0;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 29px;
+}
+
+.signup_label {
+  margin-top: 20px;
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 12px;
+  color: #a0a0a0;
+}
+
+.signup_label:first-of-type {
+  margin-top: 40px;
+}
+
+.signup_input {
+  height: 46px;
+  background: #2f2f2f;
+  color: #fff;
+  border-radius: 8px;
+  border: none;
+  padding-left: 15px;
+  margin-top: 10px;
+}
+
+.signup_register {
+  margin-top: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 45px;
+  background: #3456f3;
+  border-radius: 3px;
+  border: none;
+  color: #fff;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px;
+  cursor: pointer;
+  transition: 0.3s opacity ease-in-out;
+}
+
+.signup_loader {
+  margin: 0 15px 0;
+}
+
+.signup_register:disabled {
+  filter: grayscale(1);
+  opacity: 0.5;
+}
+
+.signup_register:hover {
+  opacity: 0.5;
+}
+
+.signup_already-registered {
+  margin-top: 16px;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  color: #a0a0a0;
+  text-align: center;
+}
+
+.signup_signin {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  text-align: center;
+  color: #3456f3;
+  text-decoration: none;
+  transition: 0.3s opacity ease-in-out;
+}
+
+.signup_signin:hover {
+  opacity: 0.5;
+}
+
+.signup_error {
+  margin-top: 10px;
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 12px;
+  color: #ff3055;
+  display: none;
+}
+
+.signup_error__response-error {
+  margin-top: 60px;
+  opacity: 0;
+  text-align: center;
+  font-size: 14px;
+  display: block;
+}
+
+.signup_error__showed {
+  display: block;
+  opacity: 1;
+}
+
+@media screen and (max-width: 500px) {
+  .signup_wrapper {
+    width: 90%;
+  }
+  .signup_logo {
+    align-self: center;
+  }
+
+  .signup_title {
+    align-self: center;
+  }
+}

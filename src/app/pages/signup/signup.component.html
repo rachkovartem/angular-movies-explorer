@@ -1,0 +1,34 @@
+<main class="signup">
+  <form class="signup_wrapper" onSubmit="{handleSubmit(onSubmit)}">
+    <a routerLink="/">
+      <img src="assets/images/logo-header.svg" class="signup_logo" alt="logo" />
+    </a>
+    <h1 class="signup_title">Добро пожаловать!</h1>
+    <label for="signup_name" class="signup_label">Имя</label>
+    <input id="signup_name" class="signup_input" name="name" required />
+    <p class="signup_error">errors.name</p>
+    <label for="signup_email" class="signup_label">Email</label>
+    <input
+      id="signup_email"
+      class="signup_input"
+      type="email"
+      name="email"
+      required
+    />
+    <p class="signup_error">errors.email</p>
+    <label for="signup_password" class="signup_label">Пароль</label>
+    <input
+      id="signup_password"
+      class="signup_input"
+      name="password"
+      type="password"
+      required
+    />
+    <p class="signup_error">responseError</p>
+    <button class="signup_register">Зарегистрироваться</button>
+    <p class="signup_already-registered">
+      Уже зарегистрированы?
+      <a class="signup_signin" routerLink="/signin">Войти</a>
+    </p>
+  </form>
+</main>
