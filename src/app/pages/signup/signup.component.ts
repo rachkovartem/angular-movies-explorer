@@ -6,11 +6,11 @@ import {
   Validators,
 } from '@angular/forms';
 import { consts } from 'src/consts';
-import { AuthService } from '../../services/auth.service';
+import { AuthResponse, AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { ErrorTitles, validateErrors } from '../../helpers/validate-errors';
-import { catchError, last, map, tap } from 'rxjs';
-import { HttpEventType } from '@angular/common/http';
+import { catchError, last, map, Observable, tap } from 'rxjs';
+import { HttpEvent, HttpEventType } from '@angular/common/http';
 
 type GetErrosProps = {
   inputName: 'name' | 'email' | 'password';
@@ -43,9 +43,9 @@ export class SignupComponent implements OnInit {
 
   isSubmitting = false;
 
-  requestError = null;
+  requestError: string | null = null;
 
-  requestProgress = 0;
+  requestProgress = 10;
 
   onChanges() {
     this.form.valueChanges.subscribe(() => (this.requestError = null));
@@ -97,39 +97,53 @@ export class SignupComponent implements OnInit {
     return !this.form.valid || this.isSubmitting;
   }
 
+  handleAuthRequest(request: Observable<HttpEvent<AuthResponse>>) {
+    return request.pipe(
+      tap((event) => {
+        if (event.type === HttpEventType.UploadProgress) {
+          this.requestProgress = event.total
+            ? Math.round((100 * event.loaded) / event.total)
+            : 100;
+        }
+      }),
+      last(),
+      catchError((error) => {
+        throw (this.requestError =
+          error?.error?.message || 'Что-то пошло не так');
+      })
+    );
+  }
+
   submit() {
     this.isSubmitting = true;
     const values = this.form.value;
-    this.authService
-      .signUn({
+    const errorHandler = (error: string) => {
+      this.requestError = error;
+      this.isSubmitting = false;
+    };
+    this.handleAuthRequest(
+      this.authService.signUn({
         name: values.name as string,
         email: values.email as string,
         password: values.password as string,
       })
-      .pipe(
-        tap((event) => {
-          if (event.type === HttpEventType.UploadProgress) {
-            this.requestProgress = event.total
-              ? Math.round((100 * event.loaded) / event.total)
-              : 100;
-          }
-        }),
-        last(),
-        catchError((error) => {
-          throw (this.requestError =
-            error?.error?.message || 'Что-то пошло не так');
-        })
-      )
-      .subscribe({
-        next: () => {
-          this.isSubmitting = false;
-          this.router.navigate(['/movies']);
-        },
-        error: (error) => {
-          this.requestError = error;
-          this.isSubmitting = false;
-        },
-      });
+    ).subscribe({
+      next: () => {
+        this.handleAuthRequest(
+          this.authService.signIn({
+            email: values.email as string,
+            password: values.password as string,
+          })
+        ).subscribe({
+          next: () => {
+            this.isSubmitting = false;
+            this.router.navigate(['/movies']);
+          },
+          error: errorHandler,
+        });
+      },
+      error: errorHandler,
+    });
   }
 
   ngOnInit(): void {
