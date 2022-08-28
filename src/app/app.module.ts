@@ -12,7 +12,6 @@ import { SigninComponent } from './pages/signin/signin.component';
 import { SignupComponent } from './pages/signup/signup.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgCircleProgressModule } from 'ng-circle-progress';
-import { AuthPageComponentComponent } from './components/auth-page-component/auth-page-component.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +22,6 @@ import { AuthPageComponentComponent } from './components/auth-page-component/aut
     FooterComponent,
     SigninComponent,
     SignupComponent,
-    AuthPageComponentComponent,
   ],
   imports: [
     BrowserModule,

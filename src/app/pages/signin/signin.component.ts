@@ -1,4 +1,17 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { consts } from 'src/consts';
+import { AuthService, handleAuthRequest } from '../../services/auth.service';
+import { Router } from '@angular/router';
+import { ErrorTitles, validateErrors } from '../../helpers/validate-errors';
+
+type GetErrosProps = {
+  inputName: 'email' | 'password';
+  localeName: string;
+  patternDescription?: string;
+  maxlength?: number;
+  minlength?: number;
+};
 
 @Component({
   selector: 'app-signin',
@@ -6,7 +19,87 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./signin.component.scss'],
 })
 export class SigninComponent implements OnInit {
-  constructor() {}
+  constructor(private authService: AuthService, private router: Router) {}
 
-  ngOnInit(): void {}
+  form = new FormGroup({
+    email: new FormControl<string>('', [
+      Validators.required,
+      Validators.pattern(consts.EMAIL_PATTERN),
+    ]),
+    password: new FormControl<string>('', [Validators.required]),
+  });
+
+  isSubmitting = false;
+
+  requestError: string | null = null;
+
+  requestProgress = 10;
+
+  onChanges() {
+    this.form.valueChanges.subscribe(() => (this.requestError = null));
+  }
+
+  getError = ({
+    inputName,
+    localeName,
+    patternDescription,
+    maxlength,
+  }: GetErrosProps) => {
+    const errors = this.form.controls[inputName].errors || {};
+    const touched = this.form.controls[inputName].touched;
+    const firstError = Object.keys(errors)[0] as ErrorTitles;
+    return (
+      touched &&
+      validateErrors(localeName)?.[firstError]?.({
+        maxlength,
+        patternDescription,
+      })
+    );
+  };
+
+  get emailError() {
+    return this.getError({
+      inputName: 'email',
+      localeName: 'email',
+      patternDescription: 'корректный email в формате user@example.com',
+    });
+  }
+
+  get passwordError() {
+    return this.getError({
+      inputName: 'password',
+      localeName: 'пароль',
+    });
+  }
+
+  get submitDisabled() {
+    return !this.form.valid || this.isSubmitting;
+  }
+
+  submit() {
+    this.isSubmitting = true;
+    const values = this.form.value;
+    const errorHandler = (error: string) => {
+      this.requestError = error;
+      this.isSubmitting = false;
+    };
+    handleAuthRequest(
+      this.authService.signIn({
+        email: values.email as string,
+        password: values.password as string,
+      }),
+      this.requestProgress,
+      this.requestError
+    ).subscribe({
+      next: () => {
+        this.isSubmitting = false;
+        this.router.navigate(['/movies']);
+      },
+      error: errorHandler,
+    });
+  }
+
+  ngOnInit(): void {
+    this.onChanges();
+  }
 }

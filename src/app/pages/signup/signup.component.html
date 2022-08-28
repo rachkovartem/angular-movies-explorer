@@ -42,11 +42,12 @@
       {{ passwordError }}
     </p>
     <button class="signup_register" type="submit" [disabled]="submitDisabled">
-      <circle-progress
-        *ngIf="isSubmitting"
-        [radius]="10"
-        [percent]="requestProgress"
-      ></circle-progress>
+      <div *ngIf="isSubmitting" class="lds-ring">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
       Зарегистрироваться
     </button>
     <p class="signup_already-registered">

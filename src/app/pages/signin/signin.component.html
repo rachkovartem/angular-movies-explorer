@@ -1,1 +1,58 @@
-<p>signin works!</p>
+<main class="signup">
+  <form [formGroup]="form" (submit)="submit()" class="signin_wrapper">
+    <a routerLink="/">
+      <img src="assets/images/logo-header.svg" class="signin_logo" alt="logo" />
+    </a>
+    <h1 class="signin_title">Добро пожаловать!</h1>
+    <label for="signin_email" class="signin_label">Email</label>
+    <input
+      id="signin_email"
+      class="signin_input"
+      type="email"
+      formControlName="email"
+    />
+    <p
+      [ngClass]="
+        emailError ? 'signin_error signin_error__showed' : 'signin_error'
+      "
+    >
+      {{ emailError }}
+    </p>
+    <label for="signin_password" class="signin_label">Пароль</label>
+    <input
+      id="signin_password"
+      class="signin_input"
+      type="password"
+      formControlName="password"
+    />
+    <p
+      [ngClass]="
+        passwordError ? 'signin_error signin_error__showed' : 'signin_error'
+      "
+    >
+      {{ passwordError }}
+    </p>
+    <button class="signin_register" type="submit" [disabled]="submitDisabled">
+      <div *ngIf="isSubmitting" class="lds-ring">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+      Войти
+    </button>
+    <p class="signin_already-registered">
+      Ещё не зарегистрированы?
+      <a class="signin_signin" routerLink="/signup">Зарегистрироватьс</a>
+    </p>
+    <p
+      [ngClass]="
+        requestError
+          ? 'signin_error signin_error__response-error signin_error__showed'
+          : 'signin_error'
+      "
+    >
+      {{ requestError }}
+    </p>
+  </form>
+</main>

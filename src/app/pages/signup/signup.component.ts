@@ -1,15 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  FormControl,
-  FormControlName,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { consts } from 'src/consts';
-import { AuthResponse, AuthService } from '../../services/auth.service';
+import {
+  AuthResponse,
+  AuthService,
+  handleAuthRequest,
+} from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { ErrorTitles, validateErrors } from '../../helpers/validate-errors';
-import { catchError, last, map, Observable, tap } from 'rxjs';
+import { catchError, last, Observable, tap } from 'rxjs';
 import { HttpEvent, HttpEventType } from '@angular/common/http';
 
 type GetErrosProps = {
@@ -97,23 +96,6 @@ export class SignupComponent implements OnInit {
     return !this.form.valid || this.isSubmitting;
   }
 
-  handleAuthRequest(request: Observable<HttpEvent<AuthResponse>>) {
-    return request.pipe(
-      tap((event) => {
-        if (event.type === HttpEventType.UploadProgress) {
-          this.requestProgress = event.total
-            ? Math.round((100 * event.loaded) / event.total)
-            : 100;
-        }
-      }),
-      last(),
-      catchError((error) => {
-        throw (this.requestError =
-          error?.error?.message || 'Что-то пошло не так');
-      })
-    );
-  }
-
   submit() {
     this.isSubmitting = true;
     const values = this.form.value;
@@ -121,19 +103,23 @@ export class SignupComponent implements OnInit {
       this.requestError = error;
       this.isSubmitting = false;
     };
-    this.handleAuthRequest(
-      this.authService.signUn({
+    handleAuthRequest(
+      this.authService.signUp({
         name: values.name as string,
         email: values.email as string,
         password: values.password as string,
-      })
+      }),
+      this.requestProgress,
+      this.requestError
     ).subscribe({
       next: () => {
-        this.handleAuthRequest(
+        handleAuthRequest(
           this.authService.signIn({
             email: values.email as string,
             password: values.password as string,
-          })
+          }),
+          this.requestProgress,
+          this.requestError
         ).subscribe({
           next: () => {
             this.isSubmitting = false;
