@@ -3,7 +3,11 @@
     <img src="assets/images/logo-header.svg" alt="logo" />
   </a>
   <div class="header_buttons">
-    <a routerLink="/signup" routerLinkActive="active" class="header_signup-link"
+    <a
+      *ngIf="!isAuthenticated"
+      routerLink="/signup"
+      routerLinkActive="active"
+      class="header_signup-link"
       >Регистрация</a
     >
     <a routerLink="/signin" routerLinkActive="active" class="header_signin-link"

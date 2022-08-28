@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { HttpClient, HttpEvent, HttpEventType } from '@angular/common/http';
 import { IUser } from '../models/user';
 import { environment } from '../../environments/environment';
@@ -14,10 +14,11 @@ export type AuthResponse = Omit<IUser, 'password'>;
 export class AuthService {
   constructor(private http: HttpClient) {}
 
-  user: IUser = {} as IUser;
+  user: AuthResponse = {} as AuthResponse;
 
   signUp(body: SignUpParams) {
     return this.http.post<AuthResponse>(`${environment.apiUrl}/signup`, body, {
+      withCredentials: true,
       reportProgress: true,
       observe: 'events',
     });
@@ -25,13 +26,32 @@ export class AuthService {
 
   signIn(body: SignInParams) {
     return this.http.post<AuthResponse>(`${environment.apiUrl}/signin`, body, {
+      withCredentials: true,
       reportProgress: true,
       observe: 'events',
     });
   }
 
   me() {
-    return this.http.get<AuthResponse>(`${environment.apiUrl}/signin`);
+    return new Promise((resolve) => {
+      const request = this.http.get<AuthResponse>(
+        `${environment.apiUrl}/users/me`,
+        {
+          withCredentials: true,
+        }
+      );
+      request
+        .pipe(
+          catchError((error) => {
+            resolve(true);
+            throw error;
+          })
+        )
+        .subscribe((user) => {
+          this.user = user;
+          resolve(true);
+        });
+    });
   }
 }
 

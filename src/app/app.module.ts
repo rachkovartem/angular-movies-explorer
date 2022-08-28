@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -12,6 +12,11 @@ import { SigninComponent } from './pages/signin/signin.component';
 import { SignupComponent } from './pages/signup/signup.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgCircleProgressModule } from 'ng-circle-progress';
+import { AuthService } from './services/auth.service';
+
+export function authMeFactory(provider: AuthService) {
+  return () => provider.me();
+}
 
 @NgModule({
   declarations: [
@@ -51,7 +56,15 @@ import { NgCircleProgressModule } from 'ng-circle-progress';
       lazy: true,
     }),
   ],
-  providers: [],
+  providers: [
+    AuthService,
+    {
+      provide: APP_INITIALIZER,
+      useFactory: authMeFactory,
+      deps: [AuthService],
+      multi: true,
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
