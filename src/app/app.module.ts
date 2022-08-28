@@ -13,6 +13,7 @@ import { SignupComponent } from './pages/signup/signup.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgCircleProgressModule } from 'ng-circle-progress';
 import { AuthService } from './services/auth.service';
+import { ProfileComponent } from './pages/profile/profile.component';
 
 export function authMeFactory(provider: AuthService) {
   return () => provider.me();
@@ -27,6 +28,7 @@ export function authMeFactory(provider: AuthService) {
     FooterComponent,
     SigninComponent,
     SignupComponent,
+    ProfileComponent,
   ],
   imports: [
     BrowserModule,
@@ -62,7 +64,6 @@ export function authMeFactory(provider: AuthService) {
       provide: APP_INITIALIZER,
       useFactory: authMeFactory,
       deps: [AuthService],
-      multi: true,
     },
   ],
   bootstrap: [AppComponent],

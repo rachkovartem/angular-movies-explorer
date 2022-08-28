@@ -10,8 +10,7 @@ export class HeaderComponent implements OnInit {
   constructor(private authService: AuthService) {}
 
   get isAuthenticated() {
-    console.log(this.authService.user._id);
-    return this.authService.user._id;
+    return !!this.authService.user._id;
   }
 
   ngOnInit(): void {}

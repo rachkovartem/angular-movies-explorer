@@ -122,8 +122,10 @@ export class SignupComponent implements OnInit {
           this.requestError
         ).subscribe({
           next: () => {
-            this.isSubmitting = false;
-            this.router.navigate(['/movies']);
+            this.authService.me().subscribe(() => {
+              this.isSubmitting = false;
+              this.router.navigate(['/movies']);
+            });
           },
           error: errorHandler,
         });

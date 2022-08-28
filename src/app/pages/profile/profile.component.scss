@@ -1,0 +1,118 @@
+.profile-form {
+  height: calc(100vh - 74px - 172px);
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.profile-form_title {
+  margin-top: 148px;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 29px;
+  text-align: center;
+}
+
+.profile-form_name-wrapper {
+  width: 410px;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 123px;
+  padding-bottom: 15px;
+}
+
+.profile-form_input-title {
+  font-weight: 500;
+  font-size: 11px;
+  line-height: 13px;
+}
+
+.profile-form_input-value {
+  font-weight: 400;
+  width: 50%;
+  font-size: 11px;
+  line-height: 13px;
+  border: 1px solid #575555;
+  padding: 5px;
+  border-radius: 10px;
+  text-align: end;
+  color: #fff;
+  background: none;
+}
+
+.profile-form_input-value:disabled {
+  border: none
+}
+
+.profile-form_email-wrapper {
+  width: 410px;
+  display: flex;
+  justify-content: space-between;
+  padding-top: 15px;
+  border-top: 1px solid #424242;
+}
+
+.profile-form_change-button {
+  margin-top: auto;
+  margin-bottom: 16px;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 16px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #fff;
+  transition: 0.3s opacity ease-in-out;
+}
+
+.profile-form_success {
+  margin-top: auto;
+  height: 100px;
+  width: 100px;
+}
+
+.profile-form_change-button:hover {
+  opacity: 0.5;
+}
+
+.profile-form_exit-button {
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 16px;
+  color: #FF004D;
+  margin-bottom: 70px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: 0.3s opacity ease-in-out;
+}
+
+.profile-form_exit-button:hover {
+  opacity: 0.5;
+}
+
+.profile_error {
+  margin-top: 10px;
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 12px;
+  color: #FF3055;
+  display: none;
+}
+
+.profile_error__showed {
+  display: block;
+}
+
+.profile-form_change-button:disabled {
+  opacity: 0.5;
+}
+
+@media screen and (max-width: 500px) {
+  .profile-form_name-wrapper {
+    width: 90%;
+  }
+  .profile-form_email-wrapper {
+    width: 90%;
+  }
+}

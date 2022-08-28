@@ -93,7 +93,9 @@ export class SigninComponent implements OnInit {
     ).subscribe({
       next: () => {
         this.isSubmitting = false;
-        this.router.navigate(['/movies']);
+        this.authService
+          .me()
+          .subscribe(() => this.router.navigate(['/movies']));
       },
       error: errorHandler,
     });

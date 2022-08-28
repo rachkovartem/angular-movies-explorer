@@ -1,0 +1,23 @@
+<section>
+  <form [formGroup]="form" (submit)="submit()" class="profile-form">
+    <h1 class="profile-form_title">Привет, {{ authService.user.name }}!</h1>
+    <div class="profile-form_name-wrapper">
+      <p class="profile-form_input-title">Имя</p>
+      <input formControlName="name" class="profile-form_input-value" />
+    </div>
+    <p class="profile_error profile_error__showed">errors.name</p>
+    <div class="profile-form_email-wrapper">
+      <p class="profile-form_input-title">Email</p>
+      <input class="profile-form_input-value" formControlName="email" />
+    </div>
+    <p class="profile_error profile_error__showed">
+      errors.email || responseError
+    </p>
+    <button class="profile-form_change-button">
+      {{ editMode ? "Сохранить" : "Редактировать" }}
+    </button>
+    <button class="profile-form_exit-button" (click)="signOut()" type="button">
+      Выйти из аккаунта
+    </button>
+  </form>
+</section>

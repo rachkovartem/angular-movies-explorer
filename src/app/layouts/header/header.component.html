@@ -3,15 +3,32 @@
     <img src="assets/images/logo-header.svg" alt="logo" />
   </a>
   <div class="header_buttons">
-    <a
-      *ngIf="!isAuthenticated"
-      routerLink="/signup"
-      routerLinkActive="active"
-      class="header_signup-link"
+    <a *ngIf="!isAuthenticated" routerLink="/signup" class="header_signup-link"
       >Регистрация</a
     >
-    <a routerLink="/signin" routerLinkActive="active" class="header_signin-link"
+    <a *ngIf="!isAuthenticated" routerLink="/signin" class="header_signin-link"
       >Войти</a
+    >
+    <a
+      *ngIf="isAuthenticated"
+      routerLink="/movies"
+      routerLinkActive="header_movies-link__active"
+      class="header_movies-link"
+      >Фильмы</a
+    >
+    <a
+      *ngIf="isAuthenticated"
+      routerLink="/saved-movies"
+      routerLinkActive="header_movies-link__active"
+      class="header_movies-link"
+      >Сохраненные фильмы</a
+    >
+    <a
+      *ngIf="isAuthenticated"
+      routerLink="/profile"
+      routerLinkActive="header_profile-link__active"
+      class="header_profile-link"
+      >Профиль</a
     >
   </div>
 </header>
