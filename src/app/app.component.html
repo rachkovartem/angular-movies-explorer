@@ -1,5 +1,14 @@
-<app-header *ngIf="!isAuthPage"></app-header>
-<main [ngClass]="!isAuthPage ? 'main' : ''">
+<app-header *ngIf="!isAuthPage && !authService.authLoading"></app-header>
+<main *ngIf="!authService.authLoading" [ngClass]="!isAuthPage ? 'main' : ''">
   <router-outlet></router-outlet>
 </main>
-<app-footer *ngIf="!isAuthPage"></app-footer>
+<app-footer *ngIf="!isAuthPage && !authService.authLoading"></app-footer>
+
+<div *ngIf="authService.authLoading" class="loader">
+  <div class="loader_lds-ring">
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
+</div>

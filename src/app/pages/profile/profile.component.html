@@ -5,19 +5,41 @@
       <p class="profile-form_input-title">Имя</p>
       <input formControlName="name" class="profile-form_input-value" />
     </div>
-    <p class="profile_error profile_error__showed">errors.name</p>
+    <p
+      [ngClass]="
+        nameError ? 'profile_error profile_error__showed' : 'profile_error'
+      "
+    >
+      {{ nameError }}
+    </p>
     <div class="profile-form_email-wrapper">
       <p class="profile-form_input-title">Email</p>
       <input class="profile-form_input-value" formControlName="email" />
     </div>
-    <p class="profile_error profile_error__showed">
-      errors.email || responseError
+    <p
+      [ngClass]="
+        emailError ? 'profile_error profile_error__showed' : 'profile_error'
+      "
+    >
+      {{ emailError }}
     </p>
-    <button class="profile-form_change-button">
+    <button
+      class="profile-form_change-button"
+      [disabled]="editMode && ButtonDisabled"
+    >
       {{ editMode ? "Сохранить" : "Редактировать" }}
     </button>
     <button class="profile-form_exit-button" (click)="signOut()" type="button">
       Выйти из аккаунта
     </button>
+    <p
+      [ngClass]="
+        requestError
+          ? 'profile_error profile_error__response-error profile_error__showed'
+          : 'profile_error'
+      "
+    >
+      {{ requestError }}
+    </p>
   </form>
 </section>

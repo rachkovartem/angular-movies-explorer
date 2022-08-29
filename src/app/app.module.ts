@@ -16,7 +16,11 @@ import { AuthService } from './services/auth.service';
 import { ProfileComponent } from './pages/profile/profile.component';
 
 export function authMeFactory(provider: AuthService) {
-  return () => provider.me();
+  return () =>
+    new Promise((resolve) => {
+      provider.me();
+      resolve(true);
+    });
 }
 
 @NgModule({
@@ -64,6 +68,7 @@ export function authMeFactory(provider: AuthService) {
       provide: APP_INITIALIZER,
       useFactory: authMeFactory,
       deps: [AuthService],
+      multi: true,
     },
   ],
   bootstrap: [AppComponent],

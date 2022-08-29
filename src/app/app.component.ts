@@ -8,7 +8,7 @@ import { AuthService } from './services/auth.service';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  constructor(private router: Router) {}
+  constructor(private router: Router, public authService: AuthService) {}
   get isAuthPage() {
     return ['/signin', '/signup'].includes(this.router.url);
   }

@@ -1,7 +1,18 @@
+import { FormControl, FormGroup } from '@angular/forms';
+
 type ErrorProps = {
   maxlength?: number;
   minlength?: number;
   patternDescription?: string;
+};
+
+type GetErrosProps = {
+  form: any;
+  inputName: 'email' | 'password' | 'name';
+  localeName: string;
+  patternDescription?: string;
+  maxlength?: number;
+  minlength?: number;
 };
 
 export type ErrorTitles = 'required' | 'maxlength' | 'minlength' | 'pattern';
@@ -20,3 +31,22 @@ export const validateErrors = (inputName: string) => ({
     return `Поле ${inputName} должно содержать ${patternDescription}`;
   },
 });
+
+export const getError = ({
+  form,
+  inputName,
+  localeName,
+  patternDescription,
+  maxlength,
+}: GetErrosProps) => {
+  const errors = form.controls[inputName].errors || {};
+  const touched = form.controls[inputName].touched;
+  const firstError = Object.keys(errors)[0] as ErrorTitles;
+  return (
+    touched &&
+    validateErrors(localeName)?.[firstError]?.({
+      maxlength,
+      patternDescription,
+    })
+  );
+};

@@ -3,7 +3,11 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { consts } from 'src/consts';
 import { AuthService, handleAuthRequest } from '../../services/auth.service';
 import { Router } from '@angular/router';
-import { ErrorTitles, validateErrors } from '../../helpers/validate-errors';
+import {
+  ErrorTitles,
+  getError,
+  validateErrors,
+} from '../../helpers/validate-errors';
 
 type GetErrosProps = {
   inputName: 'email' | 'password';
@@ -39,26 +43,9 @@ export class SigninComponent implements OnInit {
     this.form.valueChanges.subscribe(() => (this.requestError = null));
   }
 
-  getError = ({
-    inputName,
-    localeName,
-    patternDescription,
-    maxlength,
-  }: GetErrosProps) => {
-    const errors = this.form.controls[inputName].errors || {};
-    const touched = this.form.controls[inputName].touched;
-    const firstError = Object.keys(errors)[0] as ErrorTitles;
-    return (
-      touched &&
-      validateErrors(localeName)?.[firstError]?.({
-        maxlength,
-        patternDescription,
-      })
-    );
-  };
-
   get emailError() {
-    return this.getError({
+    return getError({
+      form: this.form,
       inputName: 'email',
       localeName: 'email',
       patternDescription: 'корректный email в формате user@example.com',
@@ -66,7 +53,8 @@ export class SigninComponent implements OnInit {
   }
 
   get passwordError() {
-    return this.getError({
+    return getError({
+      form: this.form,
       inputName: 'password',
       localeName: 'пароль',
     });
