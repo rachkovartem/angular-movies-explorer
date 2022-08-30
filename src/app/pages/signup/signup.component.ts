@@ -1,27 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { consts } from 'src/consts';
-import {
-  AuthResponse,
-  AuthService,
-  handleAuthRequest,
-} from '../../services/auth.service';
+import { AuthService, handleAuthRequest } from '../../services/auth.service';
 import { Router } from '@angular/router';
-import {
-  ErrorTitles,
-  getError,
-  validateErrors,
-} from '../../helpers/validate-errors';
-import { catchError, last, Observable, tap } from 'rxjs';
-import { HttpEvent, HttpEventType } from '@angular/common/http';
-
-type GetErrosProps = {
-  inputName: 'name' | 'email' | 'password';
-  localeName: string;
-  patternDescription?: string;
-  maxlength?: number;
-  minlength?: number;
-};
+import { getError } from '../../helpers/validate-errors';
 
 @Component({
   selector: 'app-signup',

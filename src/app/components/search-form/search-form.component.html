@@ -6,19 +6,26 @@
           ? 'search-form_input search-form_input__error'
           : 'search-form_input'
       "
-      [placeholder]="findError ? 'Нужно ввести ключевое слово' : 'Фильм'"
+      [placeholder]="findError || 'Фильм'"
       formControlName="film"
     />
-    <button class="search-form_search-button"></button>
+    <button class="search-form_search-button" [disabled]="loading">
+      <div *ngIf="loading" class="search-form_lds-ring">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+    </button>
   </form>
   <div class="search-form_switch-wrapper">
-    <p class="search-form_switch-label">Короткометражки</p>
+    <p class="search-form_switch-label">Только с высоким рейтингом</p>
     <label class="search-form_switch">
       <input
         class="search-form_checkbox"
         type="checkbox"
-        [checked]="shorts"
-        (change)="switchShorts()"
+        [checked]="onlyTopRated"
+        (change)="switchOnlyTopRated()"
       />
       <span class="search-form_switch-span"></span>
     </label>
