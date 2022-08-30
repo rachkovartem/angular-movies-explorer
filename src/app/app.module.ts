@@ -15,6 +15,7 @@ import { NgCircleProgressModule } from 'ng-circle-progress';
 import { AuthService } from './services/auth.service';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { InterceptorService } from './services/interceptor.service';
+import { SearchFormComponent } from './components/search-form/search-form.component';
 
 export function authMeFactory(authService: AuthService) {
   return () =>
@@ -34,6 +35,7 @@ export function authMeFactory(authService: AuthService) {
     SigninComponent,
     SignupComponent,
     ProfileComponent,
+    SearchFormComponent,
   ],
   imports: [
     BrowserModule,
