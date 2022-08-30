@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { KinopoiskService } from '../../services/kinopoisk.service';
 import { catchError } from 'rxjs';
 import localStorageHelper from '../../helpers/local-storage-helper';

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { KinopoiskService } from '../../services/kinopoisk.service';
 import { Film } from '../../models/kinopoisk';
 import { WindowService } from '../../services/window.service';
+import { MoviesService } from '../../services/movies.service';
 
 @Component({
   selector: 'app-movies',
@@ -10,6 +11,7 @@ import { WindowService } from '../../services/window.service';
 })
 export class MoviesComponent implements OnInit {
   constructor(
+    private moviesService: MoviesService,
     public kinopoiskService: KinopoiskService,
     private windowsService: WindowService
   ) {}
@@ -33,6 +35,7 @@ export class MoviesComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.moviesService.getSavedFilms().subscribe();
     this.kinopoiskService.filmsList$.subscribe((films) => {
       const isNewSearch = this.kinopoiskService.currentPage === 1;
       if (isNewSearch) {
@@ -40,6 +43,7 @@ export class MoviesComponent implements OnInit {
       }
       this.showedFilms = films.slice(0, this.numberOfShowed);
     });
+
     this.windowsService.moviesPerPage$.subscribe((value) => {
       this.numberOfShowed = value;
       this.showedFilms = this.kinopoiskService.filmsList$.value.slice(
@@ -47,6 +51,7 @@ export class MoviesComponent implements OnInit {
         this.numberOfShowed
       );
     });
+
     this.windowsService.numberToAddOnMoreClick$.subscribe(
       (value) => (this.numberToAddOnMoreClick = value)
     );

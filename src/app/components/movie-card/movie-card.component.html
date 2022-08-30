@@ -6,7 +6,12 @@
     <p class="movie-card_title">
       {{ film.nameRu || film.nameEn || film.nameOriginal }}
     </p>
-    <div class="movie-card_like movie-card_like__unliked" (click)="saveMovie()">
+    <div
+      [ngClass]="
+        isLiked ? 'movie-card_like' : 'movie-card_like movie-card_like__unliked'
+      "
+      (click)="isLiked ? deleteMovie() : saveMovie()"
+    >
       <svg
         width="10"
         height="9"
