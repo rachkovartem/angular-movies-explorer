@@ -17,6 +17,7 @@ export class AuthService {
 
   user: AuthResponse = {} as AuthResponse;
   authLoading = true;
+  authPromise: Promise<boolean> | null = null;
 
   signUp(body: SignUpParams) {
     return this.http.post<AuthResponse>(`${environment.apiUrl}/signup`, body, {
@@ -41,18 +42,22 @@ export class AuthService {
         withCredentials: true,
       }
     );
-    request
-      .pipe(
-        catchError((error) => {
-          this.user = {} as AuthResponse;
+    this.authPromise = new Promise((resolve, reject) => {
+      request
+        .pipe(
+          catchError((error) => {
+            this.user = {} as AuthResponse;
+            this.authLoading = false;
+            reject(false);
+            throw error;
+          })
+        )
+        .subscribe((user) => {
           this.authLoading = false;
-          throw error;
-        })
-      )
-      .subscribe((user) => {
-        this.authLoading = false;
-        this.user = user;
-      });
+          this.user = user;
+          resolve(true);
+        });
+    });
 
     return request;
   }

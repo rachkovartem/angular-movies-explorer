@@ -7,7 +7,7 @@ import {
   RouterStateSnapshot,
   UrlTree,
 } from '@angular/router';
-import { Observable } from 'rxjs';
+import { catchError, Observable } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 
 @Injectable({
@@ -15,6 +15,18 @@ import { AuthService } from '../services/auth.service';
 })
 export class AuthGuard implements CanActivate, CanActivateChild {
   constructor(private authService: AuthService, private router: Router) {}
+
+  authPromiseResolver(
+    resolve: (value: boolean) => void,
+    reject: (value: boolean) => void
+  ) {
+    this.authService.authPromise
+      ?.then(() => resolve(true))
+      .catch(() => {
+        this.router.navigate(['/']);
+        reject(false);
+      });
+  }
 
   canActivate(
     route: ActivatedRouteSnapshot,
@@ -24,12 +36,9 @@ export class AuthGuard implements CanActivate, CanActivateChild {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    if (this.authService.user._id) {
-      return true;
-    } else {
-      this.router.navigate(['/']);
-      return false;
-    }
+    return new Promise((resolve, reject) =>
+      this.authPromiseResolver(resolve, reject)
+    );
   }
   canActivateChild(
     childRoute: ActivatedRouteSnapshot,
@@ -39,11 +48,8 @@ export class AuthGuard implements CanActivate, CanActivateChild {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    if (this.authService.user._id) {
-      return true;
-    } else {
-      this.router.navigate(['/']);
-      return false;
-    }
+    return new Promise((resolve, reject) =>
+      this.authPromiseResolver(resolve, reject)
+    );
   }
 }

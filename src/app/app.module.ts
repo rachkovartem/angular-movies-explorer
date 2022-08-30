@@ -15,10 +15,10 @@ import { NgCircleProgressModule } from 'ng-circle-progress';
 import { AuthService } from './services/auth.service';
 import { ProfileComponent } from './pages/profile/profile.component';
 
-export function authMeFactory(provider: AuthService) {
+export function authMeFactory(authService: AuthService) {
   return () =>
     new Promise((resolve) => {
-      provider.me();
+      authService.me();
       resolve(true);
     });
 }
