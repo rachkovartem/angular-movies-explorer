@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './pages/home/home.component';
 import { MoviesComponent } from './pages/movies/movies.component';
 import { HeaderComponent } from './layouts/header/header.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { FooterComponent } from './layouts/footer/footer.component';
 import { SigninComponent } from './pages/signin/signin.component';
 import { SignupComponent } from './pages/signup/signup.component';
@@ -14,6 +14,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { NgCircleProgressModule } from 'ng-circle-progress';
 import { AuthService } from './services/auth.service';
 import { ProfileComponent } from './pages/profile/profile.component';
+import { InterceptorService } from './services/interceptor.service';
 
 export function authMeFactory(authService: AuthService) {
   return () =>
@@ -68,6 +69,11 @@ export function authMeFactory(authService: AuthService) {
       provide: APP_INITIALIZER,
       useFactory: authMeFactory,
       deps: [AuthService],
+      multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: InterceptorService,
       multi: true,
     },
   ],
