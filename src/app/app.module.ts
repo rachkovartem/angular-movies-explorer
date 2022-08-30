@@ -18,6 +18,7 @@ import { InterceptorService } from './services/interceptor.service';
 import { SearchFormComponent } from './components/search-form/search-form.component';
 import { MovieCardComponent } from './components/movie-card/movie-card.component';
 import { MoviesCardListComponent } from './components/movies-card-list/movies-card-list.component';
+import { SavedMoviesComponent } from './pages/saved-movies/saved-movies.component';
 
 export function authMeFactory(authService: AuthService) {
   return () =>
@@ -40,6 +41,7 @@ export function authMeFactory(authService: AuthService) {
     SearchFormComponent,
     MovieCardComponent,
     MoviesCardListComponent,
+    SavedMoviesComponent,
   ],
   imports: [
     BrowserModule,

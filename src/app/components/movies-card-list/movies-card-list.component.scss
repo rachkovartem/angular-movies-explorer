@@ -17,6 +17,7 @@
   .movies-card-list_wrapper {
     grid-template-columns: repeat(4, 1fr);
     grid-template-rows: 1fr;
+    width: calc(100% - 140px);
   }
 }
 

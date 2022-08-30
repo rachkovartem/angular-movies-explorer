@@ -1,0 +1,15 @@
+.saved-movies {
+  display: flex;
+  flex-direction: column;
+}
+
+.saved-movies_not-found {
+  text-align: center;
+  margin-top: 50px;
+  font-size: 40px;
+}
+
+.saved-movies_error {
+  text-align: center;
+  margin: 50px 50px 0;
+}

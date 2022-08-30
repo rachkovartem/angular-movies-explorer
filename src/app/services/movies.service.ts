@@ -5,7 +5,7 @@ import { environment } from '../../environments/environment';
 import { AuthResponse } from './auth.service';
 import { Film } from '../models/kinopoisk';
 import { SaveMoviesResponse } from '../models/movies';
-import { asap, BehaviorSubject, tap } from 'rxjs';
+import { BehaviorSubject, Subject, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -14,10 +14,11 @@ export class MoviesService {
   constructor(private http: HttpClient, private router: Router) {}
 
   user: AuthResponse = {} as AuthResponse;
-  savedMovies: Film[] = [];
+  savedMovies: BehaviorSubject<Film[]> = new BehaviorSubject<Film[]>([]);
   savedIdObject: BehaviorSubject<Record<string, Film>> = new BehaviorSubject<
     Record<string, Film>
   >({});
+  showedSavedMovies: Subject<Film[]> = new Subject<Film[]>();
 
   saveFilm(body: Film) {
     return this.http
@@ -26,7 +27,7 @@ export class MoviesService {
       })
       .pipe(
         tap((film) => {
-          this.savedMovies.push(film);
+          this.savedMovies.next([...this.savedMovies.value, film]);
           this.savedIdObject.next({
             ...this.savedIdObject.value,
             [film.kinopoiskId]: film,
@@ -46,8 +47,10 @@ export class MoviesService {
       .pipe(
         tap((response) => {
           const kinopoiskId = response.movie.kinopoiskId;
-          this.savedMovies = this.savedMovies.filter(
-            (film) => film?.kinopoiskId !== kinopoiskId
+          this.savedMovies.next(
+            this.savedMovies.value.filter(
+              (film) => film?.kinopoiskId !== kinopoiskId
+            )
           );
           const newObj = { ...this.savedIdObject.value };
           delete newObj[kinopoiskId];
@@ -63,7 +66,7 @@ export class MoviesService {
       })
       .pipe(
         tap((data) => {
-          this.savedMovies = data;
+          this.savedMovies.next(data);
           const result: Record<string, Film> = {};
           data.forEach((film) => {
             result[film.kinopoiskId.toString()] = film;
