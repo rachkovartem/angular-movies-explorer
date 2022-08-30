@@ -16,6 +16,8 @@ import { AuthService } from './services/auth.service';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { InterceptorService } from './services/interceptor.service';
 import { SearchFormComponent } from './components/search-form/search-form.component';
+import { MovieCardComponent } from './components/movie-card/movie-card.component';
+import { MoviesCardListComponent } from './components/movies-card-list/movies-card-list.component';
 
 export function authMeFactory(authService: AuthService) {
   return () =>
@@ -36,6 +38,8 @@ export function authMeFactory(authService: AuthService) {
     SignupComponent,
     ProfileComponent,
     SearchFormComponent,
+    MovieCardComponent,
+    MoviesCardListComponent,
   ],
   imports: [
     BrowserModule,

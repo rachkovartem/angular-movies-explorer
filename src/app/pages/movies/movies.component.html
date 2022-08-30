@@ -1,3 +1,20 @@
 <main class="movies">
   <app-search-form></app-search-form>
+  <app-movies-card-list [showedFilms]="showedFilms">
+    <button
+      *ngIf="isShowMoreShowed"
+      (click)="onClickMore()"
+      [disabled]="kinopoiskService.expandLoading"
+      class="movies_more"
+      type="button"
+    >
+      <div *ngIf="kinopoiskService.expandLoading" class="movies_lds-ring">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+      Ещё
+    </button>
+  </app-movies-card-list>
 </main>

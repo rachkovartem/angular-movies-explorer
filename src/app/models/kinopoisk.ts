@@ -16,6 +16,8 @@ export interface Film {
   type: FilmType;
   posterUrl: string;
   posterUrlPreview: string;
+  _id?: string;
+  owner?: string;
 }
 
 export interface SearchFilmParams {
@@ -31,6 +33,8 @@ export interface SearchFilmParams {
   keyword?: string;
   page?: number;
 }
+
+export type SearchFilmParamsWithoutPage = Omit<SearchFilmParams, 'page'>;
 
 export interface SearchFilmResponse {
   total: number;

@@ -9,8 +9,11 @@
       [placeholder]="findError || 'Фильм'"
       formControlName="film"
     />
-    <button class="search-form_search-button" [disabled]="loading">
-      <div *ngIf="loading" class="search-form_lds-ring">
+    <button
+      class="search-form_search-button"
+      [disabled]="kinopoiskService.loading"
+    >
+      <div *ngIf="kinopoiskService.loading" class="search-form_lds-ring">
         <div></div>
         <div></div>
         <div></div>
@@ -19,12 +22,12 @@
     </button>
   </form>
   <div class="search-form_switch-wrapper">
-    <p class="search-form_switch-label">Только с высоким рейтингом</p>
+    <p class="search-form_switch-label">Только сериалы</p>
     <label class="search-form_switch">
       <input
         class="search-form_checkbox"
         type="checkbox"
-        [checked]="onlyTopRated"
+        [checked]="onlySerials"
         (change)="switchOnlyTopRated()"
       />
       <span class="search-form_switch-span"></span>

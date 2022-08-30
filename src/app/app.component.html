@@ -1,5 +1,9 @@
 <app-header *ngIf="!isAuthPage && !authService.authLoading"></app-header>
-<main *ngIf="!authService.authLoading" [ngClass]="!isAuthPage ? 'main' : ''">
+<main
+  (window:resize)="onResize()"
+  *ngIf="!authService.authLoading"
+  [ngClass]="!isAuthPage ? 'main' : ''"
+>
   <router-outlet></router-outlet>
 </main>
 <app-footer *ngIf="!isAuthPage && !authService.authLoading"></app-footer>
