@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { links } from 'src/consts';
 
 @Component({
   selector: 'app-footer',
@@ -7,6 +8,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FooterComponent implements OnInit {
   constructor() {}
+
+  links = links;
+  currentYear = new Date().getFullYear();
 
   ngOnInit(): void {}
 }

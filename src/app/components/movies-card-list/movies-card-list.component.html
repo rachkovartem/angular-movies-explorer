@@ -1,9 +1,12 @@
 <section class="movies-card-list">
-  <div class="movies-card-list_wrapper">
+  <div *ngIf="showedFilms.length > 0" class="movies-card-list_wrapper">
     <app-movie-card
       *ngFor="let film of showedFilms"
       [film]="film"
     ></app-movie-card>
+  </div>
+  <div class="movies-card-list_not-found" *ngIf="showedFilms.length === 0">
+    Ничего не найдено
   </div>
   <ng-content></ng-content>
 </section>
