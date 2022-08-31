@@ -94,6 +94,7 @@ export class ProfileComponent implements OnInit {
   }
 
   signOut() {
+    localStorage.clear();
     this.authService.signOut();
   }
 

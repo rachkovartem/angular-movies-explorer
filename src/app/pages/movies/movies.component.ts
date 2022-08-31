@@ -21,7 +21,10 @@ export class MoviesComponent implements OnInit {
   numberToAddOnMoreClick = 0;
 
   get isShowMoreShowed() {
-    return !(this.showedFilms.length === this.kinopoiskService.pagesMeta.total);
+    return (
+      this.showedFilms.length > 0 &&
+      !(this.showedFilms.length === this.kinopoiskService.pagesMeta.total)
+    );
   }
 
   onClickMore() {
