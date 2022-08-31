@@ -42,6 +42,11 @@
   justify-content: center;
   align-items: center;
   cursor: pointer;
+  border: none;
+}
+
+.movie-card_like__loading {
+  cursor: wait;
 }
 
 .movie-card:hover .movie-card_like__saved {

@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
 import { AuthResponse } from './auth.service';
 import { Film } from '../models/kinopoisk';
@@ -11,7 +10,7 @@ import { BehaviorSubject, Subject, tap } from 'rxjs';
   providedIn: 'root',
 })
 export class MoviesService {
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient) {}
 
   user: AuthResponse = {} as AuthResponse;
   savedMovies: BehaviorSubject<Film[]> = new BehaviorSubject<Film[]>([]);
@@ -26,12 +25,14 @@ export class MoviesService {
         withCredentials: true,
       })
       .pipe(
-        tap((film) => {
-          this.savedMovies.next([...this.savedMovies.value, film]);
-          this.savedIdObject.next({
-            ...this.savedIdObject.value,
-            [film.kinopoiskId]: film,
-          });
+        tap({
+          next: (film) => {
+            this.savedMovies.next([...this.savedMovies.value, film]);
+            this.savedIdObject.next({
+              ...this.savedIdObject.value,
+              [film.kinopoiskId]: film,
+            });
+          },
         })
       );
   }

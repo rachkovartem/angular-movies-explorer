@@ -6,13 +6,38 @@
     <p class="movie-card_title">
       {{ film.nameRu || film.nameEn || film.nameOriginal }}
     </p>
-    <div
+    <button
       [ngClass]="
-        isLiked ? 'movie-card_like' : 'movie-card_like movie-card_like__unliked'
+        isLiked
+          ? loading
+            ? 'movie-card_like movie-card_like__loading'
+            : 'movie-card_like'
+          : loading
+          ? 'movie-card_like movie-card_like__loading movie-card_like__unliked'
+          : 'movie-card_like movie-card_like__unliked'
       "
-      (click)="isLiked ? deleteMovie() : saveMovie()"
+      (click)="
+        isSavedMovieCard ? deleteMovie() : isLiked ? deleteMovie() : saveMovie()
+      "
+      [disabled]="loading"
     >
       <svg
+        *ngIf="isSavedMovieCard"
+        width="8"
+        height="8"
+        viewBox="0 0 8 8"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          fill-rule="evenodd"
+          clip-rule="evenodd"
+          d="M4.00098 5.06055L6.65254 7.71211L7.7132 6.65145L5.06164 3.99989L7.71308 1.34844L6.65242 0.287781L4.00098 2.93923L1.34923 0.287484L0.288574 1.34814L2.94032 3.99989L0.288461 6.65174L1.34912 7.7124L4.00098 5.06055Z"
+          fill="white"
+        />
+      </svg>
+      <svg
+        *ngIf="!isSavedMovieCard"
         width="10"
         height="9"
         viewBox="0 0 10 9"
@@ -24,7 +49,7 @@
           fill="#FF3055"
         />
       </svg>
-    </div>
+    </button>
   </div>
   <p class="movie-card_duration">
     {{ film.ratingKinopoisk || film.ratingImdb || "--" }}

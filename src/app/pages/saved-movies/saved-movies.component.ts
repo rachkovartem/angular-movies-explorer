@@ -16,13 +16,16 @@ export class SavedMoviesComponent implements OnInit {
     const showedSavedMovies = this.moviesService.showedSavedMovies;
     const savedMovies = this.moviesService.savedMovies;
 
-    showedSavedMovies.subscribe((value) => (this.showedFilms = value));
+    showedSavedMovies.subscribe((value) => {
+      this.showedFilms = value;
+    });
+
+    savedMovies.subscribe((films) => showedSavedMovies.next(films));
+
     if (savedMovies?.value.length === 0) {
       this.moviesService
         .getSavedFilms()
         .subscribe(() => showedSavedMovies.next(savedMovies.value));
-    } else {
-      showedSavedMovies.next(savedMovies.value);
     }
   }
 }
