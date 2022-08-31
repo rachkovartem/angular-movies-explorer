@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "NODE_ENV=development node replace.env.ts && ng serve",
-    "start:heroku": "node replace.env.ts && npm install && npm install -g @angular/cli && ng build && node server.js",
+    "start:heroku": "node replace.env.ts && npm install && ng build && node server.js",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
@@ -12,6 +12,9 @@
   },
   "private": true,
   "dependencies": {
+    "@angular/compiler-cli": "^14.1.0",
+    "@angular/cli": "~14.1.3",
+    "@angular-devkit/build-angular": "^14.1.3",
     "@angular/animations": "^14.1.0",
     "@angular/common": "^14.1.0",
     "@angular/compiler": "^14.1.0",
@@ -29,9 +32,6 @@
     "zone.js": "~0.11.4"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^14.1.3",
-    "@angular/cli": "~14.1.3",
-    "@angular/compiler-cli": "^14.1.0",
     "@types/jasmine": "~4.0.0",
     "jasmine-core": "~4.2.0",
     "karma": "~6.4.0",
